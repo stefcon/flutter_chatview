@@ -20,6 +20,7 @@
  * SOFTWARE.
  */
 
+// Nebitna promena
 library chatview;
 
 export 'src/widgets/chat_view.dart';

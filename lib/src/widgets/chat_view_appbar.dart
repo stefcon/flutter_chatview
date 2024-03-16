@@ -20,6 +20,7 @@
  * SOFTWARE.
  */
 import 'dart:io' if (kIsWeb) 'dart:html';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'package:flutter/material.dart';
@@ -86,6 +87,7 @@ class ChatViewAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: Colors.transparent,
       elevation: elevation ?? 1,
       child: Container(
         padding: padding ??
@@ -93,7 +95,7 @@ class ChatViewAppBar extends StatelessWidget {
               top: MediaQuery.of(context).padding.top,
               bottom: 4,
             ),
-        color: backGroundColor ?? Colors.white,
+        color: Colors.transparent,
         child: Row(
           children: [
             if (showLeading)
@@ -101,7 +103,7 @@ class ChatViewAppBar extends StatelessWidget {
                   IconButton(
                     onPressed: onBackPress ?? () => Navigator.pop(context),
                     icon: Icon(
-                      (!kIsWeb && Platform.isIOS)
+                      (!kIsWeb && (Platform.isIOS || Platform.isAndroid))
                           ? Icons.arrow_back_ios
                           : Icons.arrow_back,
                       color: backArrowColor,
@@ -113,8 +115,27 @@ class ChatViewAppBar extends StatelessWidget {
                   if (profilePicture != null)
                     Padding(
                       padding: const EdgeInsets.only(right: 8.0),
-                      child: CircleAvatar(
-                          backgroundImage: NetworkImage(profilePicture!)),
+                      child:
+                      Container(
+                        width: 40.0,
+                        height: 40.0,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              spreadRadius: 1,
+                              blurRadius: 5,
+                              offset: Offset(5, 7),
+                            ),
+                          ],
+                        ),
+                        child: ClipOval(
+                            child: CachedNetworkImage(
+                              imageUrl: profilePicture!,
+                              fit: BoxFit.cover,
+                            )),
+                      ),
                     ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

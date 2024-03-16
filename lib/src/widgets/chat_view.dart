@@ -188,7 +188,7 @@ class _ChatViewState extends State<ChatView>
             chatBackgroundConfig.height ?? MediaQuery.of(context).size.height,
         width: chatBackgroundConfig.width ?? MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          color: chatBackgroundConfig.backgroundColor ?? Colors.white,
+          color: Colors.transparent,
           image: chatBackgroundConfig.backgroundImage != null
               ? DecorationImage(
                   fit: BoxFit.fill,
@@ -253,24 +253,26 @@ class _ChatViewState extends State<ChatView>
                         );
                       },
                     ),
-                  if (featureActiveConfig.enableTextField)
-                    SendMessageWidget(
-                      key: _sendMessageKey,
-                      chatController: chatController,
-                      sendMessageBuilder: widget.sendMessageBuilder,
-                      sendMessageConfig: widget.sendMessageConfig,
-                      backgroundColor: chatBackgroundConfig.backgroundColor,
-                      onSendTap: _onSendTap,
-                      onReplyCallback: (reply) => replyMessage.value = reply,
-                      onReplyCloseCallback: () =>
-                          replyMessage.value = const ReplyMessage(),
-                    ),
+
                 ],
               ),
             ),
+            if (featureActiveConfig.enableTextField)
+              SendMessageWidget(
+                key: _sendMessageKey,
+                chatController: chatController,
+                sendMessageBuilder: widget.sendMessageBuilder,
+                sendMessageConfig: widget.sendMessageConfig,
+                backgroundColor: chatBackgroundConfig.backgroundColor,
+                onSendTap: _onSendTap,
+                onReplyCallback: (reply) => replyMessage.value = reply,
+                onReplyCloseCallback: () =>
+                replyMessage.value = const ReplyMessage(),
+              ),
           ],
         ),
       ),
+
     );
   }
 

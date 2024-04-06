@@ -19,10 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import 'dart:io' if (kIsWeb) 'dart:html';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../values/typedefs.dart';
@@ -100,14 +98,15 @@ class ChatViewAppBar extends StatelessWidget {
           children: [
             if (showLeading)
               leading ??
-                  IconButton(
-                    onPressed: onBackPress ?? () => Navigator.pop(context),
-                    icon: Icon(
-                      (!kIsWeb && (Platform.isIOS || Platform.isAndroid))
-                          ? Icons.arrow_back_ios
-                          : Icons.arrow_back,
-                      color: backArrowColor,
+                  CupertinoButton(
+                    alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.only(left: 16, right: 8),
+                    child: Icon(
+                      CupertinoIcons.back,
+                      color: Color(0xFFBDC3C7),
+                      // size: 30.0
                     ),
+                    onPressed: () => Navigator.of(context).pop(),
                   ),
             Expanded(
               child: Row(
@@ -115,8 +114,7 @@ class ChatViewAppBar extends StatelessWidget {
                   if (profilePicture != null)
                     Padding(
                       padding: const EdgeInsets.only(right: 8.0),
-                      child:
-                      Container(
+                      child: Container(
                         width: 40.0,
                         height: 40.0,
                         decoration: BoxDecoration(
@@ -132,9 +130,9 @@ class ChatViewAppBar extends StatelessWidget {
                         ),
                         child: ClipOval(
                             child: CachedNetworkImage(
-                              imageUrl: profilePicture!,
-                              fit: BoxFit.cover,
-                            )),
+                          imageUrl: profilePicture!,
+                          fit: BoxFit.cover,
+                        )),
                       ),
                     ),
                   Column(
